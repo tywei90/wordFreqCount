@@ -1,0 +1,10 @@
+{
+  "name": "lmlcSpider",
+  "version": "1.0.0",
+  "description": "powered by node",
+  "author": "魏天尧 <tywei90@gmail.com>",
+  "private": true,
+  "dependencies": {
+    "node-xlsx": "^0.11.2",
+  }
+}
