@@ -21,7 +21,6 @@
   },
   "scripts": {
     "dev": "gulp",
-    "xlsx": "node init.js",
     "server": "nodemon --watch server server/server.js"
   }
 }

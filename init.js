@@ -4,6 +4,10 @@ let startTime = +new Date();
 console.log('词频统计开始，请耐心等待...');
 let fs = require('fs');
 let xlsx = require('node-xlsx');
+if(!fs.existsSync('./xlsx/input.xlsx')){
+	console.log('需要提供input.xlsx文件');
+    return 
+}
 let xlsxData = xlsx.parse('./xlsx/input.xlsx')[0].data;
 let xlsxDel=[];
 
@@ -168,7 +172,7 @@ function createJSON(arr){
 	})
 	let RADIUS = nodes[0].radius;
 	for(let i=0, len=nodes.length; i<len; i++){
-		nodes[i].radius = (nodes[i].radius/RADIUS).toFixed(2);
+		nodes[i].radius = Math.sqrt(nodes[i].radius/RADIUS).toFixed(2);
 	}
 	fs.writeFileSync('data.json', JSON.stringify({
 		nodes:nodes,
