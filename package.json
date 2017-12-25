@@ -5,6 +5,23 @@
   "author": "魏天尧 <tywei90@gmail.com>",
   "private": true,
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "consolidate": "^0.15.0",
+    "debug": "^3.1.0",
+    "express": "^4.16.2",
+    "http": "0.0.0",
+    "morgan": "^1.9.0",
     "node-xlsx": "^0.11.2",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-connect": "^5.0.0",
+    "gulp-livereload": "^3.8.1"
+  },
+  "scripts": {
+    "dev": "gulp",
+    "xlsx": "node init.js",
+    "server": "nodemon --watch server server/server.js"
   }
 }

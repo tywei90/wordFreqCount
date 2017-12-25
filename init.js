@@ -4,15 +4,15 @@ let startTime = +new Date();
 console.log('词频统计开始，请耐心等待...');
 let fs = require('fs');
 let xlsx = require('node-xlsx');
-let xlsxData = xlsx.parse('input.xlsx')[0].data;
+let xlsxData = xlsx.parse('./xlsx/input.xlsx')[0].data;
 let xlsxDel=[];
 
 let oneDimSize = process.argv[2]||1000;
 let twoDimSize = process.argv[3]||500;
 
 // 需要排除的数据
-if(fs.existsSync('del.xlsx')){
-    xlsxDel = xlsx.parse('del.xlsx')[0].data;
+if(fs.existsSync('./xlsx/del.xlsx')){
+    xlsxDel = xlsx.parse('./xlsx/del.xlsx')[0].data;
 }
 
 // 格式化: 带'；'分隔的词条为两个词条
@@ -139,6 +139,43 @@ for(key in twoObj){
 twoItem.sort(function(a,b){
 	return b.count - a.count;
 })
+createJSON(twoItem);
+
+function createJSON(arr){
+	let nodes=[];
+	let links=[];
+	let obj={};
+	let VALUE = arr[0].count;
+	for(let i=0, len=arr.length; i<len; i++){
+		let tmp = arr[i].item.split('－');
+		obj[tmp[0]] = (obj[tmp[0]]||0) + arr[i].count;
+		obj[tmp[1]] = (obj[tmp[1]]||0) + arr[i].count;
+		links.push({
+			"source": tmp[0], 
+			"target": tmp[1], 
+			"value": (arr[i].count/VALUE).toFixed(2)
+		});
+	}
+	for(key in obj){
+		nodes.push({
+			"id": key, 
+			"group": Math.floor(Math.random()*20), //0-19任意一个
+			"radius": obj[key]
+		});
+	}
+	nodes.sort(function(a,b){
+		return b.radius - a.radius;
+	})
+	let RADIUS = nodes[0].radius;
+	for(let i=0, len=nodes.length; i<len; i++){
+		nodes[i].radius = (nodes[i].radius/RADIUS).toFixed(2);
+	}
+	fs.writeFileSync('data.json', JSON.stringify({
+		nodes:nodes,
+		links:links
+	}));
+}
+
 // 格式化三维词频
 for(key in threeObj){
 	threeItem.push({count: threeObj[key], item: key});
@@ -175,7 +212,7 @@ var outBuffer = xlsx.build([
 	{name: "三维词频统计", data: transThreeItem},
 	{name: "四维词频统计", data: transFourItem}
 ]);
-fs.writeFileSync('output.xlsx', outBuffer);
+fs.writeFileSync('./xlsx/output.xlsx', outBuffer);
 
 let endTime3 = +new Date();
 console.log('写入完毕，总共耗时：' + (endTime3 - startTime)/1000 + '秒');
