@@ -27,4 +27,13 @@ n 参数是取一维词频(由高到低排序)的前n个做二维、三维、四
 7、新增力向导图，更加形象直观的展示数据之间的关系。  
     （1）`node init.js` 生成必要的json分析文件
     （2）`npm run dev` 检测index.html文件和data.json文件，如果有变动，自动刷新页面（前提chrome浏览器装livereload插件）
-    （3）`npm run server` 启动服务器，监听8000端口，然后打开浏览器，输入[http://localhost:8000/](http://localhost:8000/)即可
+    （3）`npm run server` 启动服务器，监听8000端口，然后打开浏览器，输入[http://localhost:8000/](http://localhost:8000/)，即可看到如下图所示，鼠标在圆圈上hover会显示该词条名称。
+    [生成的图片](./dist/graph.jpg)
+
+
+
+
+
+
+
+
