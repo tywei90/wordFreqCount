@@ -6,12 +6,12 @@
     3. 在命令行输入`node`、`git`，有使用说明则安装成功
 
 2. 下载本仓库
-```
+```bash
 git clone https://github.com/tywei90/wordFreqCount.git
 ```
 
 3. 安装运行需要的包文件
-```
+```bash
 cd wordFreqCount
 npm install
 ```
@@ -19,10 +19,10 @@ npm install
 4. xlsx文件夹存放输入输出的xlsx文件。将需要进行共词分析的excel文件命名为input.xlsx，格式为一列多行，每个词条是多个词之间是以'－'分隔开，如果出现'；'，则解析成两条词条；需要排除的词汇命名为del.xlsx，也是一列多行格式
 
 5. 运行方式
-```
+```bash
 node init.js m n
 ```
-    
+
     1. m 参数是取一维词频(由高到低排序)的前m个作为输出，默认值：1000
     2. n 参数是取一维词频(由高到低排序)的前n个做二维、三维、四维分析，默认值：500
 
