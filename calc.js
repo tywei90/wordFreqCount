@@ -7,8 +7,11 @@ if(!fs.existsSync('./xlsx/csv.xlsx')){
 	console.log('需要提供csv.xlsx文件');
     return 
 }
-let xlsxData = xlsx.parse('./xlsx/csv.xlsx')[0].data;
+let originData = xlsx.parse('./xlsx/csv.xlsx');
+let xlsxData = originData[0].data;
 let search = process.argv[2];
+let limit = process.argv[3];
+
 if(!search){
 	console.log('需要提供筛选的词组');
     return 
@@ -28,9 +31,32 @@ let regExp = new RegExp(regExpArr.join('|'));
 
 // 开始统计
 let count = 0;
+let matchArr = [xlsxData[0]];
 for(let i=1, len=xlsxData.length; i<len; i++){
 	let str = xlsxData[i].join('');
-	if(regExp.test(str)) count++
+	if(regExp.test(str)) {
+		count++;
+		matchArr.push(xlsxData[i]);
+	}
+}
+
+if(limit!=undefined){
+	limit = parseInt(limit);
+	if(count >= limit && count){
+		let name = `${search}-${count}`;
+		let isNew = true;
+		for(let i=0, len=originData.length; i<len; i++){
+			if(originData[i].name === name){
+				isNew = false;
+				originData[i].data = matchArr;
+			}
+		}
+		if(isNew){
+			originData.push({name: name, data: matchArr});
+		}
+		var outBuffer = xlsx.build(originData);
+		fs.writeFileSync('./xlsx/csv.xlsx', outBuffer);
+	}
 }
 
 let endTime = +new Date();
